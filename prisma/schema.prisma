@@ -1,0 +1,55 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Get a free hosted Postgres database in seconds: `npx create-db`
+
+generator client {
+  provider = "prisma-client-js"
+  output   = "../generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+enum Role {
+  ADMIN
+  STUDENT
+}
+
+model Session {
+  id        String   @id
+  sid       String   @unique
+  data      String
+  expiresAt DateTime
+}
+
+model User {
+  id            String         @id @default(uuid())
+  email         String         @unique
+  password      String
+  name          String
+  level         Int? // Only for students
+  role          Role           @default(STUDENT)
+  registrations Registration[]
+  createdAt     DateTime       @default(now())
+}
+
+model Course {
+  id            String         @id @default(uuid())
+  title         String
+  level         Int
+  registrations Registration[]
+  createdAt     DateTime       @default(now())
+}
+
+model Registration {
+  id         String   @id @default(uuid())
+  userId     String
+  courseId   String
+  user       User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  course     Course   @relation(fields: [courseId], references: [id], onDelete: Cascade)
+  enrolledAt DateTime @default(now())
+
+  @@unique([userId, courseId]) // Prevent duplicate registrations
+}
