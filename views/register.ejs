@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Register - Course Registration Portal</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 h-screen flex items-center justify-center">
+  <div class="bg-white p-8 rounded-lg shadow-md w-full max-w-md">
+    <h2 class="text-2xl font-bold mb-6 text-center text-gray-800">Student Registration</h2>
+    
+    <% if (error) { %>
+      <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-4 text-sm text-center font-medium">
+        <%= error %>
+      </div>
+    <% } %>
+
+    <form action="/register" method="POST" class="space-y-4">
+      <div>
+        <label class="block text-sm font-medium text-gray-700">Full Name</label>
+        <input type="text" name="name" required class="mt-1 block w-full p-2.5 border border-gray-300 rounded shadow-sm focus:ring-indigo-500 focus:border-indigo-500 bg-gray-50 text-gray-900">
+      </div>
+
+      <div>
+        <label class="block text-sm font-medium text-gray-700">Email Address</label>
+        <input type="email" name="email" required class="mt-1 block w-full p-2.5 border border-gray-300 rounded shadow-sm focus:ring-indigo-500 focus:border-indigo-500 bg-gray-50 text-gray-900">
+      </div>
+      
+      <div>
+        <label class="block text-sm font-medium text-gray-700">Password</label>
+        <input type="password" name="password" required class="mt-1 block w-full p-2.5 border border-gray-300 rounded shadow-sm focus:ring-indigo-500 focus:border-indigo-500 bg-gray-50 text-gray-900">
+      </div>
+
+      <div>
+        <label class="block text-sm font-medium text-gray-700">Academic Level</label>
+        <select name="level" required class="mt-1 block w-full p-2.5 border border-gray-300 rounded shadow-sm focus:ring-indigo-500 focus:border-indigo-500 bg-gray-50 text-gray-900">
+          <option value="" disabled selected>Select your current level</option>
+          <option value="100">Level 100</option>
+          <option value="200">Level 200</option>
+          <option value="300">Level 300</option>
+          <option value="400">Level 400</option>
+        </select>
+      </div>
+      
+      <button type="submit" class="w-full bg-indigo-600 text-white p-2.5 rounded font-semibold hover:bg-indigo-700 transition shadow-md mt-6">
+        Create Account
+      </button>
+    </form>
+    
+    <div class="mt-6 border-t border-gray-200 pt-4 text-center">
+      <p class="text-sm text-gray-600">
+        Already have an account? <a href="/login" class="text-indigo-600 hover:underline font-medium">Log in here</a>
+      </p>
+    </div>
+  </div>
+</body>
+</html>
