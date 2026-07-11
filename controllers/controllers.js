@@ -90,7 +90,9 @@ async function postRegister(req, res, next) {
 
 async function getAdminDashboard(req, res, next) {
   try {
-    const courses = await prisma.course.findMany({ orderBy: { level: "asc" } });
+    const courses = await prisma.course.findMany({
+      orderBy: [{ level: "asc" }, { title: "asc" }],
+    });
     const students = await prisma.user.findMany({
       where: { role: "STUDENT" },
       select: {
@@ -100,10 +102,29 @@ async function getAdminDashboard(req, res, next) {
         level: true,
         registrations: { select: { course: { select: { title: true } } } },
       },
-      orderBy: { level: "asc" },
+      orderBy: [{ level: "asc" }, { name: "asc" }],
     });
 
     return res.render("admin", { user: req.user, courses, students });
+  } catch (error) {
+    next(error);
+  }
+}
+
+async function createCourse(req, res, next) {
+  try {
+    const { title, level } = req.body;
+
+    if (!title || !level) {
+      return res.status(400).render("error", {
+        title: "Bad Request",
+        message: "Course title and level must be filled out.",
+      });
+    }
+
+    await prisma.course.create({ data: { title, level: parseInt(level) } });
+
+    return res.redirect("/admin"); // refresh page to reflect the changes
   } catch (error) {
     next(error);
   }
@@ -117,4 +138,5 @@ module.exports = {
   getRegister,
   postRegister,
   getAdminDashboard,
+  createCourse,
 };
