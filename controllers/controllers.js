@@ -84,6 +84,11 @@ async function postRegister(req, res, next) {
 
     return res.redirect("/login");
   } catch (error) {
+    if (error.code === "P2002") {
+      return res.render("register", {
+        error: "This email address has already been registered.",
+      });
+    }
     next(error);
   }
 }
@@ -126,6 +131,13 @@ async function createCourse(req, res, next) {
 
     return res.redirect("/admin"); // refresh page to reflect the changes
   } catch (error) {
+    // Prevent duplicate course creation
+    if (error.code === "P2002") {
+      return res.status(409).render("error", {
+        title: "Conflict",
+        message: "A course with that title already exists.",
+      });
+    }
     next(error);
   }
 }
@@ -161,6 +173,86 @@ async function getStudentDashboard(req, res, next) {
   }
 }
 
+async function registerCourse(req, res, next) {
+  try {
+    const { courseId } = req.body;
+
+    if (!courseId) {
+      return res.status(400).render("error", {
+        title: "Bad Request",
+        message: "Missing course identification details.",
+      });
+    }
+
+    const targetCourse = await prisma.course.findUnique({
+      where: { id: courseId },
+    });
+
+    if (!targetCourse) {
+      return res.status(404).render("error", {
+        title: "Not Found",
+        message:
+          "The course you are attempting to register for does not exist.",
+      });
+    }
+
+    if (targetCourse.level !== req.user.level) {
+      return res.status(403).render("error", {
+        title: "Forbidden",
+        message:
+          "You cannot register for courses outside of your academic level.",
+      });
+    }
+
+    await prisma.registration.create({
+      data: {
+        user: { connect: { id: req.user.id } },
+        course: { connect: { id: courseId } },
+      },
+    });
+
+    return res.redirect("/student");
+  } catch (error) {
+    // Prevent double registration
+    if (error.code === "P2002") {
+      return res.status(409).render("error", {
+        title: "Conflict",
+        message: "You are already registered for this course.",
+      });
+    }
+    next(error);
+  }
+}
+
+async function dropCourse(req, res, next) {
+  try {
+    const { courseId } = req.body;
+    const userId = req.user.id;
+
+    if (!courseId) {
+      return res.status(400).render("error", {
+        title: "Bad Request",
+        message: "Missing course identification details.",
+      });
+    }
+
+    await prisma.registration.delete({
+      where: { userId_courseId: { userId, courseId } },
+    });
+
+    return res.redirect("/student");
+  } catch (error) {
+    // Prevent double dropping of course
+    if (error.code === "P2025") {
+      return res.status(404).render("error", {
+        title: "Not Found",
+        message: "You are not enrolled in this course.",
+      });
+    }
+    next(error);
+  }
+}
+
 module.exports = {
   home,
   getLogin,
@@ -171,4 +263,6 @@ module.exports = {
   getAdminDashboard,
   createCourse,
   getStudentDashboard,
+  registerCourse,
+  dropCourse,
 };

@@ -37,7 +37,7 @@ model User {
 
 model Course {
   id            String         @id @default(uuid())
-  title         String
+  title         String         @unique
   level         Int
   registrations Registration[]
   createdAt     DateTime       @default(now())
