@@ -70,7 +70,9 @@ async function postRegister(req, res, next) {
 
     const existingUser = await prisma.user.findUnique({ where: { email } });
     if (existingUser) {
-      return res.render("register", { error: "You have an account already." });
+      return res.render("register", {
+        error: "You have an account already. Click on 'Log in here' to log in.",
+      });
     }
 
     const hashedPassword = await bcrypt.hash(password, 10);
@@ -86,6 +88,27 @@ async function postRegister(req, res, next) {
   }
 }
 
+async function getAdminDashboard(req, res, next) {
+  try {
+    const courses = await prisma.course.findMany({ orderBy: { level: "asc" } });
+    const students = await prisma.user.findMany({
+      where: { role: "STUDENT" },
+      select: {
+        id: true,
+        name: true,
+        email: true,
+        level: true,
+        registrations: { select: { course: { select: { title: true } } } },
+      },
+      orderBy: { level: "asc" },
+    });
+
+    return res.render("admin", { user: req.user, courses, students });
+  } catch (error) {
+    next(error);
+  }
+}
+
 module.exports = {
   home,
   getLogin,
@@ -93,4 +116,5 @@ module.exports = {
   logout,
   getRegister,
   postRegister,
+  getAdminDashboard,
 };
