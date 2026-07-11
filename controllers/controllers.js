@@ -130,6 +130,37 @@ async function createCourse(req, res, next) {
   }
 }
 
+async function getStudentDashboard(req, res, next) {
+  try {
+    const availableCourses = await prisma.course.findMany({
+      where: { level: req.user.level },
+      orderBy: { title: "asc" },
+    });
+
+    const studentRegistrations = await prisma.registration.findMany({
+      where: { userId: req.user.id },
+      select: { courseId: true },
+    });
+
+    // Transform studentRegistrations to a set for faster lookups using Set.has() method
+    const enrolledCourseIds = new Set(
+      studentRegistrations.map((reg) => reg.courseId),
+    );
+
+    const coursesWithRegStatus = availableCourses.map((course) => ({
+      ...course,
+      isEnrolled: enrolledCourseIds.has(course.id),
+    }));
+
+    return res.render("student", {
+      user: req.user,
+      courses: coursesWithRegStatus,
+    });
+  } catch (error) {
+    next(error);
+  }
+}
+
 module.exports = {
   home,
   getLogin,
@@ -139,4 +170,5 @@ module.exports = {
   postRegister,
   getAdminDashboard,
   createCourse,
+  getStudentDashboard,
 };
