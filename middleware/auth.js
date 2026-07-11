@@ -12,4 +12,17 @@ function isAdmin(req, res, next) {
   next();
 }
 
-module.exports = { isAdmin };
+function isStudent(req, res, next) {
+  if (!req.isAuthenticated()) return res.redirect("/login");
+
+  if (req.user.role !== "STUDENT") {
+    return res.status(403).render("error", {
+      title: "403 Forbidden",
+      message: "Access denied. This portal is for students only.",
+    });
+  }
+
+  next();
+}
+
+module.exports = { isAdmin, isStudent };

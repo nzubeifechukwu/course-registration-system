@@ -11,7 +11,7 @@ const {
   createCourse,
   getStudentDashboard,
 } = require("../controllers/controllers");
-const { isAdmin } = require("../middleware/isAdmin");
+const { isAdmin, isStudent } = require("../middleware/auth");
 
 const router = Router();
 
@@ -23,6 +23,6 @@ router.get("/register", getRegister);
 router.post("/register", postRegister);
 router.get("/admin", isAdmin, getAdminDashboard);
 router.post("/admin/course", isAdmin, createCourse);
-router.get("/student", getStudentDashboard);
+router.get("/student", isStudent, getStudentDashboard);
 
 module.exports = router;
