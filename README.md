@@ -88,3 +88,7 @@ npm run dev
 ```
 
 Open your browser and navigate to `http://localhost:10000` to interact with the application.
+
+## Contact
+
+You may reach me on [X](https://x.com/NzubeIfechukwu) or [LinkedIn](https://www.linkedin.com/in/nzubeifechukwu/).
