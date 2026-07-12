@@ -63,6 +63,7 @@ const loginValidator = [
 const courseCreationValidator = [
   body("title")
     .trim()
+    .toUpperCase()
     .notEmpty()
     .withMessage("Course title is required (e.g., 'PHY 101').")
     .isLength({ max: 100 })
