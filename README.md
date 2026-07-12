@@ -33,10 +33,13 @@ Follow these steps to run this project locally on your machine:
 
 ### 1. Clone the Repository
 
+```bash
 git clone https://github.com/nzubeifechukwu/course-registration-system.git
 cd course-registration-system
+```
 
-Database & Deployment
+### Database & Deployment
+
 ● Store data in a database
 ● Deploy on GitHub Pages, Netlify, Render, or similar Submission Instructions
 ● Upload your complete code to GitHub
