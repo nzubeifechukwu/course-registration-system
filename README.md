@@ -68,7 +68,7 @@ DATABASE_URL="postgresql://USER:PASSWORD@HOST:5432/DATABASE?schema=public"
 
 ### 5. Initialize Database Schema and Seed Data
 
-Run the Prisma migration pipeline to map out the schema. Next, run the seed script (`./prisma/seed.js`) to instantly populate your database with a default Admin account, initial courses, and a few student accounts.
+Run the Prisma migration pipeline to map out the schema. Next, run the seed script (`./prisma/seed.js`) to instantly populate your database with an admin account and some initial courses.
 
 ```bash
 npx prisma migrate dev --name init

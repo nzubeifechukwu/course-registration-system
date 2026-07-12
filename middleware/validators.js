@@ -1,5 +1,4 @@
 const { body, validationResult } = require("express-validator");
-// const prisma = require("../lib/prisma");
 
 function validateRequest(req, res, next) {
   const errors = validationResult(req);
@@ -11,8 +10,6 @@ function validateRequest(req, res, next) {
       message: err.msg,
     }));
     req.oldData = req.body;
-
-    return next();
   }
 
   next();
