@@ -146,37 +146,38 @@ async function getAdminDashboard(req, res, next) {
   }
 }
 
+// Helper function to reload admin dashboard if something fails
+// Used in createCourse and deleteCourse functions
+async function renderDashboardWithError(
+  validationErrorsArray,
+  singleErrorString,
+) {
+  const courses = await prisma.course.findMany({
+    orderBy: [{ level: "asc" }, { title: "asc" }],
+  });
+  const students = await prisma.user.findMany({
+    where: { role: "STUDENT" },
+    select: {
+      id: true,
+      name: true,
+      email: true,
+      level: true,
+      registrations: { select: { course: { select: { title: true } } } },
+    },
+    orderBy: [{ level: "asc" }, { name: "asc" }],
+  });
+
+  return res.status(400).render("admin", {
+    user: req.user,
+    courses,
+    students,
+    errors: validationErrorsArray,
+    oldData: req.body,
+    error: singleErrorString,
+  });
+}
+
 async function createCourse(req, res, next) {
-  // Helper function to reload dashboard if something fails
-  async function renderDashboardWithError(
-    validationErrorsArray,
-    singleErrorString,
-  ) {
-    const courses = await prisma.course.findMany({
-      orderBy: [{ level: "asc" }, { title: "asc" }],
-    });
-    const students = await prisma.user.findMany({
-      where: { role: "STUDENT" },
-      select: {
-        id: true,
-        name: true,
-        email: true,
-        level: true,
-        registrations: { select: { course: { select: { title: true } } } },
-      },
-      orderBy: [{ level: "asc" }, { name: "asc" }],
-    });
-
-    return res.status(400).render("admin", {
-      user: req.user,
-      courses,
-      students,
-      errors: validationErrorsArray,
-      oldData: req.body,
-      error: singleErrorString,
-    });
-  }
-
   try {
     // First check if the validator attached any errors to the request
     if (req.validationErrors) {
@@ -196,6 +197,34 @@ async function createCourse(req, res, next) {
       return await renderDashboardWithError(
         null,
         "You have already added that course.",
+      );
+    }
+    next(error);
+  }
+}
+
+async function deleteCourse(req, res, next) {
+  try {
+    // 1. Intercept validation middleware errors (e.g., if courseId is somehow missing)
+    if (req.validationErrors) {
+      return await renderDashboardWithError(req.validationErrors, null);
+    }
+
+    const { courseId } = req.body;
+
+    // 2. A single delete query is all it takes! Relational cascading wipes out registrations natively.
+    await prisma.course.delete({
+      where: { id: courseId },
+    });
+
+    // 3. Refresh dashboard
+    return res.redirect("/admin");
+  } catch (error) {
+    // Handle the case where the course was already deleted or doesn't exist
+    if (error.code === "P2025") {
+      return await renderDashboardWithError(
+        null,
+        "The course you are attempting to delete does not exist.",
       );
     }
     next(error);
@@ -365,6 +394,7 @@ module.exports = {
   postRegister,
   getAdminDashboard,
   createCourse,
+  deleteCourse,
   getStudentDashboard,
   registerCourse,
   dropCourse,

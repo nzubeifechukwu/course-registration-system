@@ -9,6 +9,7 @@ const {
   postRegister,
   getAdminDashboard,
   createCourse,
+  deleteCourse,
   getStudentDashboard,
   registerCourse,
   dropCourse,
@@ -30,7 +31,18 @@ router.post("/logout", logout);
 router.get("/register", getRegister);
 router.post("/register", signUpValidator, postRegister);
 router.get("/admin", isAdmin, getAdminDashboard);
-router.post("/admin/course", isAdmin, courseCreationValidator, createCourse);
+router.post(
+  "/admin/course/create",
+  isAdmin,
+  courseCreationValidator,
+  createCourse,
+);
+router.post(
+  "/admin/course/delete",
+  isAdmin,
+  courseActionValidator,
+  deleteCourse,
+);
 router.get("/student", isStudent, getStudentDashboard);
 router.post(
   "/student/course/register",
