@@ -1,1 +1,9 @@
 @import "tailwindcss";
+@theme {
+  /* Your Tailwind v4 theme configs (if any) */
+}
+
+/* Global interactivity enhancements */
+a, button, select, input[type="submit"] {
+  @apply cursor-pointer;
+}
