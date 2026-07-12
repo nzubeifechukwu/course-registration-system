@@ -11,6 +11,8 @@ function validateRequest(req, res, next) {
       message: err.msg,
     }));
     req.oldData = req.body;
+
+    return next();
   }
 
   next();
