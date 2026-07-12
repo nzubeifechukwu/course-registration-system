@@ -11,13 +11,13 @@ Open this **live deployment url: https://course-registration-system-qxzg.onrende
 - Create courses (e.g., "Physics 101", etc.).
 - Assign courses to specific student academic levels (e.g., 100 level, 200 level, etc.).
 - View all students and the courses they registered for.
-- Delete courses
+- Delete courses.
 
 ### Student Workflow
 
 - Create an account on the student portal by entering your name, email, password, and academic level.
 - View only the courses available for their level.
-- Select and submit their course choices (register or drop a course).
+- Select and submit their course choices (register for or drop a course).
 
 ## Tech Stack
 
@@ -30,14 +30,14 @@ Open this **live deployment url: https://course-registration-system-qxzg.onrende
 
 ## Local Setup Instructions
 
-> [!WARNING]
+> [!IMPORTANT]
 > **IMPORTANT!!!**
 >
-> Consider interacting with the application on [this live deployment url](https://course-registration-system-qxzg.onrender.com) if you encounter some issues while trying to set up Prisma.
+> I prefer that you interact with the application on [this live deployment url](https://course-registration-system-qxzg.onrender.com).
 >
-> Proceed with the setup instructions below if you'd still want to go ahead and run the project locally.
+> But if you still want to run the project locally, then proceed with the setup instructions below.
 >
-> I've provided a link at the right point below to guide you with setting up Prisma. I hope your set up goes seamlessly.
+> I've provided a link at the right point below to guide you with setting up Prisma.
 
 Follow these steps to run this project locally on your machine:
 
