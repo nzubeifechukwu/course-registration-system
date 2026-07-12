@@ -11,6 +11,7 @@ Open this **live deployment url: ** to interact with the application.
 - Create courses (e.g., "Physics 101", etc.).
 - Assign courses to specific student academic levels (e.g., 100 level, 200 level, etc.).
 - View all students and the courses they registered for.
+- Delete courses
 
 ### Student Workflow
 

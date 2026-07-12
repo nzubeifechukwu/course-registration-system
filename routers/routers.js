@@ -28,28 +28,35 @@ router.get("/", home);
 router.get("/login", getLogin);
 router.post("/login", loginValidator, postLogin);
 router.post("/logout", logout);
+
 router.get("/register", getRegister);
 router.post("/register", signUpValidator, postRegister);
+
 router.get("/admin", isAdmin, getAdminDashboard);
+
 router.post(
   "/admin/course/create",
   isAdmin,
   courseCreationValidator,
   createCourse,
 );
+
 router.post(
   "/admin/course/delete",
   isAdmin,
   courseActionValidator,
   deleteCourse,
 );
+
 router.get("/student", isStudent, getStudentDashboard);
+
 router.post(
   "/student/course/register",
   isStudent,
   courseActionValidator,
   registerCourse,
 );
+
 router.post(
   "/student/course/drop",
   isStudent,
