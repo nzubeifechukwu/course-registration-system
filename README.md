@@ -38,10 +38,44 @@ git clone https://github.com/nzubeifechukwu/course-registration-system.git
 cd course-registration-system
 ```
 
-### Database & Deployment
+### 2. Install Dependencies
 
-● Store data in a database
-● Deploy on GitHub Pages, Netlify, Render, or similar Submission Instructions
-● Upload your complete code to GitHub
-● Share the GitHub repository link with us
-● Include a short README explaining how to run your project
+```bash
+npm install
+```
+
+### 3. Environment Configuration
+
+Create a `.env` file in the root director of your project and configure your local database connection string:
+
+```
+DATABASE_URL="postgresql://USER:PASSWORD@HOST:PORT/DATABASE?schema=public"
+PORT=10000
+```
+
+### 4. Initialize Database Schema and Seed Data
+
+Run the Prisma migration pipeline to map out the schema. Next, run the seed script (`./prisma/seed.js`) to instantly populate your database with a default Admin account, initial courses, and a few student accounts.
+
+```bash
+npx prisma migrate dev --name init
+npx prisma db seed
+```
+
+### 5. Launch the Application
+
+Start the Tailwind CSS compilation watcher and run the local development server:
+
+- **Terminal 1 (CSS Compiler):**
+
+```bash
+npm run watch:css
+```
+
+- **Terminal 2 (Application Server):**
+
+```bash
+npm run dev
+```
+
+Open your browser and navigate to `http://localhost:10000` to interact with the system.
