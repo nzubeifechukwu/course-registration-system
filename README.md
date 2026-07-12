@@ -1,6 +1,6 @@
 # Course Registration System
 
-A web-based, full-stack course registration application built with Node.js (Express framework) and PostgreSQL (Prisma ORM), with EJS (Embedded JavaScript) templates serving the frontend. The application features dual-role workflows tailored to student and admin requirements.
+A web-based, full-stack course registration application built with Node.js (Express framework) and PostgreSQL (Prisma ORM), with EJS (Embedded JavaScript) templates serving the frontend. It features dual-role workflows tailored to student and admin requirements.
 
 Open this **live deployment url: ** to interact with the application.
 
@@ -16,7 +16,7 @@ Open this **live deployment url: ** to interact with the application.
 
 - Create an account on the student portal by entering your name, email, password, and academic level.
 - View only the courses available for their level.
-- Select and submit their course choices (register for a course or drop a course).
+- Select and submit their course choices (register or drop a course).
 
 ## Tech Stack
 
@@ -32,13 +32,11 @@ Open this **live deployment url: ** to interact with the application.
 > [!WARNING]
 > **IMPORTANT!!!**
 >
-> Please consider testing and interacting with the application on the live deployment link above if you encounter some issues while trying to set up Prisma.
->
-> `./generated/prisma` folder is untracked, which is why I think setting up Prisma may give some issues.
+> Consider interacting with the application on the live deployment link above if you encounter some issues while trying to set up Prisma.
 >
 > Proceed with the setup instructions below if you'd still want to go ahead and run the project locally.
 >
->I've provided a link at the right point below to guide you with setting up Prisma. I hope your set up goes seamlessly.
+> I've provided a link at the right point below to guide you with setting up Prisma. I hope your set up goes seamlessly.
 
 Follow these steps to run this project locally on your machine:
 

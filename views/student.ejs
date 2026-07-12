@@ -33,6 +33,24 @@
     </div>
 
     <div class="bg-white p-6 rounded-lg shadow-sm border border-gray-200">
+      
+      <% if (typeof error !== 'undefined' && error) { %>
+        <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-6 text-sm font-medium text-center shadow-sm">
+          <%= error %>
+        </div>
+      <% } %>
+
+      <% if (typeof errors !== 'undefined' && errors && errors.length > 0) { %>
+        <div class="bg-red-50 border border-red-300 text-red-700 px-4 py-3 rounded mb-6 text-sm font-medium shadow-sm">
+          <p class="font-bold mb-1 text-red-800">Portal Actions Stopped:</p>
+          <ul class="list-disc list-inside space-y-0.5 text-xs text-red-600">
+            <% errors.forEach(function(err) { %>
+              <li><%= err.message %></li>
+            <% }) %>
+          </ul>
+        </div>
+      <% } %>
+
       <h2 class="text-xl font-bold mb-6 text-gray-800">Curriculum Course Catalog</h2>
       
       <% if (courses && courses.length > 0) { %>
@@ -48,21 +66,21 @@
             </thead>
             <tbody class="bg-white divide-y divide-gray-200 text-sm text-gray-700">
               <% courses.forEach(course => { %>
-                <tr>
+                <tr class="hover:bg-gray-50 transition-colors">
                   <td class="px-6 py-4 font-medium text-gray-900"><%= course.title %></td>
                   <td class="px-6 py-4">Level <%= course.level %></td>
                   <td class="px-6 py-4">
                     <% if (course.isEnrolled) { %>
-                      <span class="px-2.5 py-1 text-xs font-semibold bg-green-100 text-green-800 rounded-full">Enrolled</span>
+                      <span class="px-2.5 py-1 text-xs font-semibold bg-green-100 text-green-800 rounded-full border border-green-200">Enrolled</span>
                     <% } else { %>
-                      <span class="px-2.5 py-1 text-xs font-semibold bg-gray-100 text-gray-600 rounded-full">Not Registered</span>
+                      <span class="px-2.5 py-1 text-xs font-semibold bg-gray-100 text-gray-600 rounded-full border border-gray-200">Not Registered</span>
                     <% } %>
                   </td>
                   <td class="px-6 py-4 text-right">
                     <% if (course.isEnrolled) { %>
                       <form action="/student/course/drop" method="POST" class="inline">
                         <input type="hidden" name="courseId" value="<%= course.id %>">
-                        <button type="submit" class="bg-red-100 hover:bg-red-200 text-red-700 px-3 py-1.5 rounded text-xs font-bold transition">
+                        <button type="submit" class="bg-red-100 hover:bg-red-200 text-red-700 px-3 py-1.5 rounded text-xs font-bold transition border border-red-200">
                           Drop Course
                         </button>
                       </form>

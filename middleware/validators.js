@@ -1,15 +1,16 @@
 const { body, validationResult } = require("express-validator");
+// const prisma = require("../lib/prisma");
 
 function validateRequest(req, res, next) {
   const errors = validationResult(req);
 
   if (!errors.isEmpty()) {
-    return res.status(400).json({
-      status: "fail",
-      errors: errors
-        .array()
-        .map((err) => ({ field: err.path, message: err.msg })),
-    });
+    // Pack the formatted errors onto the req object so the controllers can access them
+    req.validationErrors = errors.array().map((err) => ({
+      field: err.path,
+      message: err.msg,
+    }));
+    req.oldData = req.body;
   }
 
   next();

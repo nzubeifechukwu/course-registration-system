@@ -10,16 +10,27 @@
   <div class="bg-white p-8 rounded-lg shadow-md w-full max-w-md">
     <h2 class="text-2xl font-bold mb-6 text-center text-gray-800">Portal Login</h2>
     
-    <% if (error) { %>
+    <% if (typeof error !== 'undefined' && error) { %>
       <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-4 text-sm text-center font-medium">
         <%= error %>
+      </div>
+    <% } %>
+
+    <% if (typeof errors !== 'undefined' && errors && errors.length > 0) { %>
+      <div class="bg-red-50 border border-red-300 text-red-700 px-4 py-3 rounded mb-4 text-sm font-medium">
+        <p class="font-bold mb-1 text-center text-red-800">Invalid Inputs Given:</p>
+        <ul class="list-disc list-inside space-y-0.5 text-xs">
+          <% errors.forEach(function(err) { %>
+            <li><%= err.message %></li>
+          <% }) %>
+        </ul>
       </div>
     <% } %>
 
     <form action="/login" method="POST" class="space-y-4">
       <div>
         <label class="block text-sm font-medium text-gray-700">Email Address</label>
-        <input type="email" name="email" required class="mt-1 block w-full p-2.5 border border-gray-300 rounded shadow-sm focus:ring-indigo-500 focus:border-indigo-500 bg-gray-50 text-gray-900">
+        <input type="email" name="email" value="<%= typeof oldData !== 'undefined' ? oldData.email : '' %>" required class="mt-1 block w-full p-2.5 border border-gray-300 rounded shadow-sm focus:ring-indigo-500 focus:border-indigo-500 bg-gray-50 text-gray-900">
       </div>
       
       <div>
