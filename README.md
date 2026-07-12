@@ -29,7 +29,8 @@ Open this **live deployment url: ** to interact with the application.
 
 ## Local Setup Instructions
 
-> Please consider testing and interacting with the application on the live deployment link above if you encounter some issues while trying to set up Prisma.
+> [!WARNING]
+> **IMPORTANT WARNING:** Please consider testing and interacting with the application on the live deployment link above if you encounter some issues while trying to set up Prisma.
 
 > `./generated/prisma` folder is untracked, which is why I think setting up Prisma may give some issues.
 
