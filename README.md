@@ -2,7 +2,7 @@
 
 A web-based, full-stack course registration application built with Node.js (Express framework) and PostgreSQL (Prisma ORM), with EJS (Embedded JavaScript) templates serving the frontend. It features dual-role workflows tailored to student and admin requirements.
 
-Open this **live deployment url: ** to interact with the application.
+Open this **live deployment url: https://course-registration-system-qxzg.onrender.com** to interact with the application.
 
 ## Features
 
@@ -33,7 +33,7 @@ Open this **live deployment url: ** to interact with the application.
 > [!WARNING]
 > **IMPORTANT!!!**
 >
-> Consider interacting with the application on the live deployment link above if you encounter some issues while trying to set up Prisma.
+> Consider interacting with the application on [this live deployment url](https://course-registration-system-qxzg.onrender.com) if you encounter some issues while trying to set up Prisma.
 >
 > Proceed with the setup instructions below if you'd still want to go ahead and run the project locally.
 >
@@ -60,10 +60,10 @@ Follow this link to set up Prisma to work with JavaScript: https://www.theodinpr
 
 ### 4. Environment Configuration
 
-Modify the `.env` file generated in step 3 above in the root directory of your project to reflect your PostgreSQL database details (change only the parts in uppercase: USER, PASSWORD, HOST, PORT, DATABASE):
+Modify the `.env` file generated in step 3 above in the root directory of your project to reflect your PostgreSQL database details (change only the parts in uppercase: USER, PASSWORD, HOST, DATABASE):
 
 ```
-DATABASE_URL="postgresql://USER:PASSWORD@HOST:PORT/DATABASE?schema=public"
+DATABASE_URL="postgresql://USER:PASSWORD@HOST:5432/DATABASE?schema=public"
 ```
 
 ### 5. Initialize Database Schema and Seed Data
