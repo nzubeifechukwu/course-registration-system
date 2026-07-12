@@ -79,7 +79,7 @@ async function postRegister(req, res, next) {
 
     // Using the default role of STUDENT since admins are often seeded manually
     await prisma.user.create({
-      data: { name, email, password: hashedPassword, level: parseInt(level) },
+      data: { name, email, password: hashedPassword, level },
     });
 
     return res.redirect("/login");
@@ -127,7 +127,7 @@ async function createCourse(req, res, next) {
       });
     }
 
-    await prisma.course.create({ data: { title, level: parseInt(level) } });
+    await prisma.course.create({ data: { title, level } });
 
     return res.redirect("/admin"); // refresh page to reflect the changes
   } catch (error) {

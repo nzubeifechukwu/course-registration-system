@@ -13,21 +13,36 @@ const {
   registerCourse,
   dropCourse,
 } = require("../controllers/controllers");
-
 const { isAdmin, isStudent } = require("../middleware/auth");
+const {
+  loginValidator,
+  signUpValidator,
+  courseActionValidator,
+  courseCreationValidator,
+} = require("../middleware/validators");
 
 const router = Router();
 
 router.get("/", home);
 router.get("/login", getLogin);
-router.post("/login", postLogin);
+router.post("/login", loginValidator, postLogin);
 router.post("/logout", logout);
 router.get("/register", getRegister);
-router.post("/register", postRegister);
+router.post("/register", signUpValidator, postRegister);
 router.get("/admin", isAdmin, getAdminDashboard);
-router.post("/admin/course", isAdmin, createCourse);
+router.post("/admin/course", isAdmin, courseCreationValidator, createCourse);
 router.get("/student", isStudent, getStudentDashboard);
-router.post("/student/course/register", isStudent, registerCourse);
-router.post("/student/course/drop", isStudent, dropCourse);
+router.post(
+  "/student/course/register",
+  isStudent,
+  courseActionValidator,
+  registerCourse,
+);
+router.post(
+  "/student/course/drop",
+  isStudent,
+  courseActionValidator,
+  dropCourse,
+);
 
 module.exports = router;
