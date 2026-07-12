@@ -36,7 +36,9 @@ Open this **live deployment url: ** to interact with the application.
 >
 > `./generated/prisma` folder is untracked, which is why I think setting up Prisma may give some issues.
 >
-> Proceed with the setup instructions below if you'd still want to go ahead and run the project locally. I've provided a link at the right point below to guide you with setting up Prisma. I hope your set up goes seamlessly.
+> Proceed with the setup instructions below if you'd still want to go ahead and run the project locally.
+>
+>I've provided a link at the right point below to guide you with setting up Prisma. I hope your set up goes seamlessly.
 
 Follow these steps to run this project locally on your machine:
 
