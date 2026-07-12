@@ -2,7 +2,7 @@
 
 A web-based, full-stack course registration application built with Node.js (Express framework) and PostgreSQL (Prisma ORM), with EJS (Embedded JavaScript) templates serving the frontend. The application features dual-role workflows tailored to student and admin requirements.
 
-**Live deployment URL:**
+Open this **live deployment url: ** to interact with the application.
 
 ## Features
 
@@ -29,6 +29,10 @@ A web-based, full-stack course registration application built with Node.js (Expr
 
 ## Local Setup Instructions
 
+> PLEASE CONSIDER TESTING AND INTERACTING WITH THE APPLICATION ON THE LIVE DEPLOYMENT LINK ABOVE IF YOU ENCOUNTER SOME ISSUES WHILE TRYING TO SET UP PRISMA.
+> `./generated/prisma` folder is untracked, which is why I think setting up Prisma may give some issues.
+> Proceed with the setup instructions below if you'd still want to go ahead and run the project locally; I've provided a link at the right point below to guide you with setting up Prisma. I hope your set up goes seamlessly.
+
 Follow these steps to run this project locally on your machine:
 
 ### 1. Clone the Repository
@@ -44,16 +48,19 @@ cd course-registration-system
 npm install
 ```
 
-### 3. Environment Configuration
+### 3. Set up Prisma
 
-Create a `.env` file in the root director of your project and configure your local database connection string:
+Follow this link to set up Prisma to work with JavaScript: https://www.theodinproject.com/lessons/nodejs-prisma-orm#assignment
+
+### 4. Environment Configuration
+
+Modify the `.env` file generated in step 3 above in the root directory of your project to reflect your PostgreSQL database details (change only the parts in uppercase: USER, PASSWORD, HOST, PORT, DATABASE):
 
 ```
 DATABASE_URL="postgresql://USER:PASSWORD@HOST:PORT/DATABASE?schema=public"
-PORT=10000
 ```
 
-### 4. Initialize Database Schema and Seed Data
+### 5. Initialize Database Schema and Seed Data
 
 Run the Prisma migration pipeline to map out the schema. Next, run the seed script (`./prisma/seed.js`) to instantly populate your database with a default Admin account, initial courses, and a few student accounts.
 
@@ -62,7 +69,7 @@ npx prisma migrate dev --name init
 npx prisma db seed
 ```
 
-### 5. Launch the Application
+### 6. Launch the Application
 
 Start the Tailwind CSS compilation watcher and run the local development server:
 
@@ -78,4 +85,4 @@ npm run watch:css
 npm run dev
 ```
 
-Open your browser and navigate to `http://localhost:10000` to interact with the system.
+Open your browser and navigate to `http://localhost:10000` to interact with the application.
