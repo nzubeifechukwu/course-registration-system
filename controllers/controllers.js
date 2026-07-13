@@ -2,6 +2,10 @@ const bcrypt = require("bcryptjs");
 const passport = require("passport");
 
 const prisma = require("../lib/prisma");
+const {
+  renderAdminDashboardWithError,
+  renderStudentDashboardWithError,
+} = require("./helpers");
 
 function home(req, res) {
   res.redirect("/login");
@@ -146,43 +150,17 @@ async function getAdminDashboard(req, res, next) {
   }
 }
 
-// Helper function to reload admin dashboard if something fails
-// Used in createCourse and deleteCourse functions
-async function renderDashboardWithError(
-  validationErrorsArray,
-  singleErrorString,
-) {
-  const courses = await prisma.course.findMany({
-    orderBy: [{ level: "asc" }, { title: "asc" }],
-  });
-  const students = await prisma.user.findMany({
-    where: { role: "STUDENT" },
-    select: {
-      id: true,
-      name: true,
-      email: true,
-      level: true,
-      registrations: { select: { course: { select: { title: true } } } },
-    },
-    orderBy: [{ level: "asc" }, { name: "asc" }],
-  });
-
-  return res.status(400).render("admin", {
-    user: req.user,
-    courses,
-    students,
-    errors: validationErrorsArray,
-    oldData: req.body,
-    error: singleErrorString,
-  });
-}
-
 async function createCourse(req, res, next) {
   try {
     // First check if the validator attached any errors to the request
     if (req.validationErrors) {
       // Retain your dashboard data if there are any validation errors
-      return await renderDashboardWithError(req.validationErrors, null);
+      return await renderAdminDashboardWithError(
+        req,
+        res,
+        req.validationErrors,
+        null,
+      );
     }
 
     // Main business logic only runs if there are no validation errors
@@ -194,7 +172,9 @@ async function createCourse(req, res, next) {
   } catch (error) {
     // Prevent duplicate course creation
     if (error.code === "P2002") {
-      return await renderDashboardWithError(
+      return await renderAdminDashboardWithError(
+        req,
+        res,
         null,
         "You have already added that course.",
       );
@@ -207,7 +187,12 @@ async function deleteCourse(req, res, next) {
   try {
     // 1. Intercept validation middleware errors (e.g., if courseId is somehow missing)
     if (req.validationErrors) {
-      return await renderDashboardWithError(req.validationErrors, null);
+      return await renderAdminDashboardWithError(
+        req,
+        res,
+        req.validationErrors,
+        null,
+      );
     }
 
     const { courseId } = req.body;
@@ -222,7 +207,9 @@ async function deleteCourse(req, res, next) {
   } catch (error) {
     // Handle the case where the course was already deleted or doesn't exist
     if (error.code === "P2025") {
-      return await renderDashboardWithError(
+      return await renderAdminDashboardWithError(
+        req,
+        res,
         null,
         "The course you are attempting to delete does not exist.",
       );
@@ -262,40 +249,6 @@ async function getStudentDashboard(req, res, next) {
   } catch (error) {
     next(error);
   }
-}
-
-// Helper function to reload the student dashboard state on errors
-// Used in registerCourse and dropCourse functions
-async function renderStudentDashboardWithError(
-  req,
-  res,
-  validationErrors,
-  customErrorString,
-) {
-  const availableCourses = await prisma.course.findMany({
-    where: { level: req.user.level },
-    orderBy: { title: "asc" },
-  });
-
-  const studentRegistrations = await prisma.registration.findMany({
-    where: { userId: req.user.id },
-    select: { courseId: true },
-  });
-
-  const enrolledCourseIds = new Set(
-    studentRegistrations.map((reg) => reg.courseId),
-  );
-  const coursesWithRegStatus = availableCourses.map((course) => ({
-    ...course,
-    isEnrolled: enrolledCourseIds.has(course.id),
-  }));
-
-  return res.status(400).render("student", {
-    user: req.user,
-    courses: coursesWithRegStatus,
-    errors: validationErrors,
-    error: customErrorString,
-  });
 }
 
 async function registerCourse(req, res, next) {
