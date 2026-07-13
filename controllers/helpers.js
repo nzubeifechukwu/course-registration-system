@@ -1,7 +1,7 @@
 const prisma = require("../lib/prisma");
 
 // Helper function to reload admin dashboard if something fails
-// Used in createCourse and deleteCourse functions
+// Used in createCourse and deleteCourse controller functions
 async function renderAdminDashboardWithError(
   req,
   res,
@@ -33,8 +33,8 @@ async function renderAdminDashboardWithError(
   });
 }
 
-// Helper function to reload the student dashboard state on errors
-// Used in registerCourse and dropCourse functions
+// Helper function to reload student dashboard if something fails
+// Used in registerCourse and dropCourse controller functions
 async function renderStudentDashboardWithError(
   req,
   res,
