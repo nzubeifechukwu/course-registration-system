@@ -25,7 +25,7 @@ function postLogin(req, res, next) {
   if (req.validationErrors) {
     return res.status(400).render("login", {
       errors: req.validationErrors,
-      olData: req.oldData,
+      oldData: req.oldData,
       error: null,
     });
   }
@@ -96,7 +96,7 @@ async function postRegister(req, res, next) {
       return res.render("register", {
         error: "You have an account already. Click on 'Log in here' to log in.",
         errors: null,
-        olData: req.body,
+        oldData: req.body,
       });
     }
 
