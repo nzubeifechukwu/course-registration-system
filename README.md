@@ -36,7 +36,7 @@ Open this **live deployment url: https://course-registration-system-qxzg.onrende
 >
 > But if you still want to run the project locally, then proceed with the setup instructions below.
 >
-> I've provided a link at the right point below to guide you with setting up Prisma.
+> I've provided a link at the right point to guide you with setting up Prisma.
 
 Follow these steps to run this project locally on your machine:
 
