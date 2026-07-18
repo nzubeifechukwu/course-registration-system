@@ -18,7 +18,7 @@ const app = express();
 const PORT = process.env.PORT || 10000;
 
 app.set("trust proxy", 1);
-express().
+
 app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "views"));
 
