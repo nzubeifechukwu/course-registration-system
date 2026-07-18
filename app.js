@@ -6,7 +6,7 @@ const { PrismaSessionStore } = require("@quixo3/prisma-session-store");
 const passport = require("passport");
 
 const prisma = require("./lib/prisma");
-const router = require("./routers/routers");
+const router = require("./routes/routes");
 const {
   localStrategy,
   serializeSession,
@@ -18,7 +18,7 @@ const app = express();
 const PORT = process.env.PORT || 10000;
 
 app.set("trust proxy", 1);
-
+express().
 app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "views"));
 
