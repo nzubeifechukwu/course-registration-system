@@ -58,7 +58,7 @@ function logout(req, res, next) {
     req.session.destroy((destroyError) => {
       if (destroyError) return next(destroyError);
 
-      res.clearCookie("connect.sid"); // Might be redundant since the session is destroyed, but just to be safe
+      res.clearCookie("connect.sid");
 
       return res.redirect("/login");
     });
