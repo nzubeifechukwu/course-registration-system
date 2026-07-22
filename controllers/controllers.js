@@ -159,7 +159,6 @@ async function createCourse(req, res, next) {
         null,
       );
     }
-
     const { title, level } = req.body;
     await prisma.course.create({ data: { title, level } });
     return res.redirect("/admin"); // refresh page to reflect the changes
@@ -179,7 +178,6 @@ async function createCourse(req, res, next) {
 
 async function deleteCourse(req, res, next) {
   try {
-    // 1. Intercept validation middleware errors (e.g., if courseId is somehow missing)
     if (req.validationErrors) {
       return await renderAdminDashboardWithError(
         req,
@@ -188,15 +186,12 @@ async function deleteCourse(req, res, next) {
         null,
       );
     }
-
     const { courseId } = req.body;
 
-    // 2. A single delete query is all it takes! Relational cascading wipes out registrations natively.
+    // this deletes the course and all associated registrations due to cascading delete
     await prisma.course.delete({
       where: { id: courseId },
     });
-
-    // 3. Refresh dashboard
     return res.redirect("/admin");
   } catch (error) {
     // Handle the case where the course was already deleted or doesn't exist
