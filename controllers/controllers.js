@@ -66,7 +66,6 @@ function logout(req, res, next) {
 }
 
 function getRegister(req, res) {
-  // If user already exists, send them to their dashboard
   if (req.isAuthenticated()) {
     return req.user.role === "ADMIN"
       ? res.redirect("/admin")
@@ -152,9 +151,7 @@ async function getAdminDashboard(req, res, next) {
 
 async function createCourse(req, res, next) {
   try {
-    // First check if the validator attached any errors to the request
     if (req.validationErrors) {
-      // Retain your dashboard data if there are any validation errors
       return await renderAdminDashboardWithError(
         req,
         res,
@@ -163,11 +160,8 @@ async function createCourse(req, res, next) {
       );
     }
 
-    // Main business logic only runs if there are no validation errors
     const { title, level } = req.body;
-
     await prisma.course.create({ data: { title, level } });
-
     return res.redirect("/admin"); // refresh page to reflect the changes
   } catch (error) {
     // Prevent duplicate course creation
