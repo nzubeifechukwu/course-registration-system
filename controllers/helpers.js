@@ -51,6 +51,12 @@ async function renderStudentDashboardWithError(
     select: { courseId: true },
   });
 
+  // const enrolledCourseIds = studentRegistrations.map((reg) => reg.courseId);
+  // const coursesWithRegStatus = availableCourses.map((course) => ({
+  //   ...course,
+  //   isEnrolled: enrolledCourseIds.includes(course.id),
+  // }));
+
   const enrolledCourseIds = new Set(
     studentRegistrations.map((reg) => reg.courseId),
   );

@@ -220,7 +220,6 @@ async function getStudentDashboard(req, res, next) {
     });
 
     // const enrolledCourseIds = studentRegistrations.map((reg) => reg.courseId);
-
     // const coursesWithRegStatus = availableCourses.map((course) => ({
     //   ...course,
     //   isEnrolled: enrolledCourseIds.includes(course.id),
@@ -230,7 +229,6 @@ async function getStudentDashboard(req, res, next) {
     const enrolledCourseIds = new Set(
       studentRegistrations.map((reg) => reg.courseId),
     );
-
     const coursesWithRegStatus = availableCourses.map((course) => ({
       ...course,
       isEnrolled: enrolledCourseIds.has(course.id),
